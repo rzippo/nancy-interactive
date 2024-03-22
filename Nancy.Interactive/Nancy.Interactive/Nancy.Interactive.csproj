@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Unipi.Nancy.Interactive</AssemblyName>
+        <RootNamespace>Unipi.Nancy.Interactive</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Unipi.Nancy" Version="1.1.8" />
+      <PackageReference Include="XPlot.Plotly.Interactive" Version="4.0.7" />
+    </ItemGroup>
+
+</Project>
