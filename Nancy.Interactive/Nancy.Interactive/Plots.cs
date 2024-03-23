@@ -1,11 +1,65 @@
-﻿using Unipi.Nancy.MinPlusAlgebra;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.DotNet.Interactive.Formatting;
+using Unipi.Nancy.MinPlusAlgebra;
+using Unipi.Nancy.Numerics;
 using XPlot.Plotly;
+
 
 namespace Unipi.Nancy.Interactive;
 
 public static class Plots
 {
-    public static void Plot(IEnumerable<Sequence> sequences, IEnumerable<string> names)
+    #region GetPlot - only return
+
+    public static PlotlyChart GetPlot(
+        this IReadOnlyCollection<Curve> curves,
+        IEnumerable<string> names,
+        Rational? upTo = null
+    )
+    {
+        Rational t;
+        if(upTo is not null)
+            t = (Rational) upTo;
+        else
+            t = curves.Max(c => c.SecondPseudoPeriodEnd);
+        t = t == 0 ? 10 : t;
+
+        var cuts = curves
+            .Select(c => c.Cut(0, t, isEndIncluded: true))
+            .ToList();
+
+        return GetPlot(cuts, names);
+    }
+    
+    public static PlotlyChart GetPlot(
+        this Curve curve,
+        [CallerArgumentExpression("curve")] string name = "f",
+        Rational? upTo = null
+    )
+    {
+        return GetPlot([curve], [name], upTo);
+    }
+
+    public static PlotlyChart GetPlot(
+        this IReadOnlyCollection<Curve> curves,
+        Rational? upTo = null
+    )
+    {
+        var names = curves.Select((_, i) => $"{(char)('f' + i)}");
+        return GetPlot(curves, names, upTo);
+    }
+    
+    public static PlotlyChart GetPlot(
+        params Curve[] curves
+    )
+    {
+        return GetPlot(curves, null);
+    }
+    
+    public static PlotlyChart GetPlot(
+        this IEnumerable<Sequence> sequences,
+        IEnumerable<string> names
+    )
     {
         var colors = new List<string> {
             "#636EFA",
@@ -34,10 +88,7 @@ public static class Plots
             }
         );
 
-        chart
-            .GetHtml()
-            .DisplayAs("text/html");
-        return;
+        return chart;
 
         IEnumerable<Scattergl> GetTrace(Sequence sequence, string name, int index)
         {
@@ -169,4 +220,91 @@ public static class Plots
             }
         }
     }
+
+    public static PlotlyChart GetPlot(
+        this IReadOnlyCollection<Sequence> sequences
+    )
+    {
+        var names = sequences.Select((_, i) => $"{(char)('f' + i)}");
+        return GetPlot(sequences, names);
+    }
+    
+    public static PlotlyChart GetPlot(
+        this Sequence sequence,
+        [CallerArgumentExpression("sequence")] string name = "f"
+    )
+    {
+        return GetPlot([sequence], [name]);
+    }
+    
+    #endregion
+
+    #region Plot - Display to notebook
+
+    public static void Plot(
+        this IReadOnlyCollection<Curve> curves,
+        IEnumerable<string> names,
+        Rational? upTo = null
+    )
+    {
+        var plot = GetPlot(curves, names, upTo);
+        plot.DisplayOnNotebook();
+    }
+    
+    public static void Plot(
+        this Curve curve,
+        [CallerArgumentExpression("curve")] string name = "f",
+        Rational? upTo = null
+    )
+    {
+        var plot = GetPlot([curve], [name], upTo);
+        plot.DisplayOnNotebook();
+    }
+
+    public static void Plot(
+        this IReadOnlyCollection<Curve> curves,
+        Rational? upTo = null
+    )
+    {
+        var names = curves.Select((_, i) => $"{(char)('f' + i)}");
+        var plot = GetPlot(curves, names, upTo);
+        plot.DisplayOnNotebook();
+    }
+    
+    public static void Plot(
+        params Curve[] curves
+    )
+    {
+        var plot = GetPlot(curves, null);
+        plot.DisplayOnNotebook();
+    }
+    
+    public static void Plot(
+        this IEnumerable<Sequence> sequences,
+        IEnumerable<string> names
+    )
+    {
+        var plot = GetPlot(sequences, names);
+        plot.DisplayOnNotebook();
+    }
+    
+    public static void Plot(
+        this IReadOnlyCollection<Sequence> sequences
+    )
+    {
+        var names = sequences.Select((_, i) => $"{(char)('f' + i)}");
+        var plot = GetPlot(sequences, names);
+        plot.DisplayOnNotebook();
+    }
+    
+    public static void Plot(
+        this Sequence sequence,
+        [CallerArgumentExpression("sequence")] string name = "f"
+    )
+    {
+        var plot = GetPlot([sequence], [name]);
+        plot.DisplayOnNotebook();
+    }
+
+    #endregion
 }

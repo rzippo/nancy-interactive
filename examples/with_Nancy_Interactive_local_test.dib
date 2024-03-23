@@ -1,0 +1,80 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"name":"csharp"}]}}
+
+#!pwsh
+
+dotnet publish -c Release ../Nancy.Interactive/Nancy.Interactive/Nancy.Interactive.csproj -f net8.0
+
+#!csharp
+
+#r "../Nancy.Interactive/Nancy.Interactive/bin/Release/net8.0/publish/Unipi.Nancy.Interactive.dll"
+
+#r "nuget: Unipi.Nancy"
+
+#!csharp
+
+using Unipi.Nancy.MinPlusAlgebra;
+
+var f = new Curve(
+    new Sequence([
+        Point.Origin(),
+        Segment.Zero(0, 1),
+        new Point(1, 0),
+        new Segment(1, 2, 0, 1)
+    ]),
+    0, 2, 1
+);
+
+#!csharp
+
+using Unipi.Nancy.Interactive;
+var a = f.Cut(0, 6);
+var plot = Plots.GetPlot(new[]{a}, new[]{"f"});
+plot.GetHtml().DisplayAs("text/html");
+
+#!csharp
+
+plot.WithPlotlySrc("https://cdn.plot.ly/plotly-1.49.2.min");
+var html = plot.GetHtml();
+html.DisplayAs("text/html");
+
+#!html
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <div id="b94a7a61-bfff-48d5-88b2-5f71c4cd648c" style="width: 900px; height: 500px;"></div>
+        <script>
+            var data = [{"type":"scattergl","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0],"y":[0.0,0.0,1.0,1.0,2.0,2.0,3.0],"mode":"lines+markers","line":{"color":"#636EFA"},"marker":{"symbol":"circle","color":"#636EFA"},"fillcolor":"#636EFA","name":"f"}];
+           var layout = {"showlegend":true,"hovermode":"closest","xaxis":{"title":"time","showgrid":true,"zeroline":true,"_isSubplotObj":true},"yaxis":{"title":"data","showgrid":true,"zeroline":true,"_isSubplotObj":true}};
+           Plotly.newPlot('b94a7a61-bfff-48d5-88b2-5f71c4cd648c', data, layout);
+        </script>
+    </body>
+</html>
+
+#!csharp
+
+display(plot.GetInlineHtml());
+
+#!csharp
+
+plot.GetNotebookHtml().Display();
+
+#!csharp
+
+plot.GetNotebookHtml().ToString().DisplayAs("text/html");
+
+#!html
+
+<!DOCTYPE html>
+<div id="5d8bafe6-87db-499e-b307-cede2b5f22f0" style="width: 900px; height: 500px;"></div>
+<script>
+    var data = [{"type":"scattergl","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0],"y":[0.0,0.0,1.0,1.0,2.0,2.0,3.0],"mode":"lines+markers","line":{"color":"#636EFA"},"marker":{"symbol":"circle","color":"#636EFA"},"fillcolor":"#636EFA","name":"f"}];
+    var layout = {"showlegend":true,"hovermode":"closest","xaxis":{"title":"time","showgrid":true,"zeroline":true,"_isSubplotObj":true},"yaxis":{"title":"data","showgrid":true,"zeroline":true,"_isSubplotObj":true}};
+    Plotly.newPlot('5d8bafe6-87db-499e-b307-cede2b5f22f0', data, layout);
+</script>

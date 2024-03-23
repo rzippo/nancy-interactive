@@ -92,6 +92,9 @@ void plot(IEnumerable<Sequence> sequences, IEnumerable<string> names)
     );
 
     display(chart);
+    // var dv = chart.Display();
+    // Console.WriteLine(dv.ToString());
+    // chart.GetHtml().DisplayAs("text/html");
     
     IEnumerable<Scattergl> getTrace(Sequence sequence, string name, int index)
     {
@@ -285,5 +288,25 @@ var nodeServiceCurves = new List<Curve>{
     new RateLatencyServiceCurve(20, 10),
 };
 
+plot(a, nodeServiceCurves[0]);
+
 var wcd_1 = WorstCaseLatencyThroughTandem_OutputArrivalCurves(a, nodeServiceCurves);
 Console.WriteLine(wcd_1);
+
+#!html
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <div id="f81598b1-6682-4b9f-a581-acaadc79667b" style="width: 900px; height: 500px;"></div>
+        <script>
+            var data = [{"type":"scattergl","showlegend":true,"legendgroup":"a","x":[0.0,12.0],"y":[10.0,130.0],"mode":"lines","line":{"color":"#636EFA"},"fillcolor":"#636EFA","name":"a"},{"type":"scattergl","showlegend":false,"legendgroup":"a","x":[0.0,12.0],"y":[0.0,130.0],"mode":"markers","line":{"color":"#636EFA"},"marker":{"symbol":"circle","color":"#636EFA"},"fillcolor":"#636EFA","name":"a"},{"type":"scattergl","showlegend":false,"legendgroup":"a","x":[0.0],"y":[10.0],"mode":"markers","line":{"color":"#636EFA"},"marker":{"symbol":"circle-open","color":"#636EFA","line":{"color":"#636EFA"}},"fillcolor":"#636EFA","name":"a"},{"type":"scattergl","x":[0.0,10.0,12.0],"y":[0.0,0.0,40.0],"mode":"lines+markers","line":{"color":"#EF553B"},"marker":{"symbol":"circle","color":"#EF553B"},"fillcolor":"#EF553B","name":"b"}];
+           var layout = {"showlegend":true,"hovermode":"closest","xaxis":{"title":"time","showgrid":true,"zeroline":true,"_isSubplotObj":true},"yaxis":{"title":"data","showgrid":true,"zeroline":true,"_isSubplotObj":true}};
+           Plotly.newPlot('f81598b1-6682-4b9f-a581-acaadc79667b', data, layout);
+        </script>
+    </body>
+</html>
