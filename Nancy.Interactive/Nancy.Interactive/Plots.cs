@@ -30,7 +30,7 @@ public static class Plots
 
         return GetPlot(cuts, names);
     }
-    
+
     public static PlotlyChart GetPlot(
         this Curve curve,
         [CallerArgumentExpression("curve")] string name = "f",
@@ -48,14 +48,14 @@ public static class Plots
         var names = curves.Select((_, i) => $"{(char)('f' + i)}");
         return GetPlot(curves, names, upTo);
     }
-    
+
     public static PlotlyChart GetPlot(
         params Curve[] curves
     )
     {
         return GetPlot(curves, null);
     }
-    
+
     public static PlotlyChart GetPlot(
         this IEnumerable<Sequence> sequences,
         IEnumerable<string> names
@@ -74,11 +74,11 @@ public static class Plots
             "#FECB52"
         };
 
-        var traces = Enumerable.Zip(sequences, names) 
+        var traces = Enumerable.Zip(sequences, names)
             .SelectMany((ns, i) => GetTrace(ns.First, ns.Second, i));
 
         var chart = Chart.Plot(traces);
-        
+
         chart.WithLayout(
             new Layout.Layout {
                 xaxis = new Xaxis { zeroline = true, showgrid = true, title = "time" },
@@ -128,7 +128,7 @@ public static class Plots
                 var segments = new List<((decimal x, decimal y) a, (decimal x, decimal y) b)>();
                 var points = new List<(decimal x, decimal y)>();
                 var discontinuities = new List<(decimal x, decimal y)>();
-                
+
                 var breakpoints = sequence.EnumerateBreakpoints();
                 foreach(var (left, center, right) in breakpoints)
                 {
@@ -176,9 +176,9 @@ public static class Plots
                         showlegend = segmentsLegend && isFirst
                     };
                     yield return trace;
-                    isFirst = false; 
+                    isFirst = false;
                 }
-                
+
                 var pointsTrace = new Scattergl {
                     x = points.Select(p => p.x).ToArray(),
                     y = points.Select(p => p.y).ToArray(),
@@ -228,7 +228,7 @@ public static class Plots
         var names = sequences.Select((_, i) => $"{(char)('f' + i)}");
         return GetPlot(sequences, names);
     }
-    
+
     public static PlotlyChart GetPlot(
         this Sequence sequence,
         [CallerArgumentExpression("sequence")] string name = "f"
@@ -236,7 +236,7 @@ public static class Plots
     {
         return GetPlot([sequence], [name]);
     }
-    
+
     #endregion
 
     #region Plot - Display to notebook
@@ -250,7 +250,7 @@ public static class Plots
         var plot = GetPlot(curves, names, upTo);
         plot.DisplayOnNotebook();
     }
-    
+
     public static void Plot(
         this Curve curve,
         [CallerArgumentExpression("curve")] string name = "f",
@@ -270,7 +270,7 @@ public static class Plots
         var plot = GetPlot(curves, names, upTo);
         plot.DisplayOnNotebook();
     }
-    
+
     public static void Plot(
         params Curve[] curves
     )
@@ -278,7 +278,7 @@ public static class Plots
         var plot = GetPlot(curves, null);
         plot.DisplayOnNotebook();
     }
-    
+
     public static void Plot(
         this IEnumerable<Sequence> sequences,
         IEnumerable<string> names
@@ -287,7 +287,7 @@ public static class Plots
         var plot = GetPlot(sequences, names);
         plot.DisplayOnNotebook();
     }
-    
+
     public static void Plot(
         this IReadOnlyCollection<Sequence> sequences
     )
@@ -296,7 +296,7 @@ public static class Plots
         var plot = GetPlot(sequences, names);
         plot.DisplayOnNotebook();
     }
-    
+
     public static void Plot(
         this Sequence sequence,
         [CallerArgumentExpression("sequence")] string name = "f"
