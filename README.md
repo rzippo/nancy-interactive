@@ -1,5 +1,9 @@
 # Nancy.Interactive
 
+[![MIT License](https://img.shields.io/badge/license-MIT-green)](/LICENSE.txt)
+[![Nuget](https://img.shields.io/nuget/v/Unipi.Nancy.Interactive)](https://www.nuget.org/packages/Unipi.Nancy.Interactive/)
+[![DOI:10.1016/j.softx.2022.101178](http://img.shields.io/badge/DOI-10.1016/j.softx.2022.101178-B31B1B.svg)](https://doi.org/10.1016/j.softx.2022.101178)
+
 This package provides native integration of [Nancy](https://www.nuget.org/packages/Unipi.Nancy/) with .NET Interactive and several methods used for plotting curves.
 
 Checkout the [webpage](https://rzippo.github.io/nancy/) for tutorials and the full documentation.
