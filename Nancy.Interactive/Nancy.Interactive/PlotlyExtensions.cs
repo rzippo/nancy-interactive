@@ -9,12 +9,18 @@ using XPlot.Plotly;
 namespace Unipi.Nancy.Interactive;
 
 /// <summary>
-/// This class actually ports and exposes method from the XPlot.Plotly.Interactive package
-/// which are for some reason NOT EXPOSED.
-/// It seems, for some reason, to be the only code that will consistently render in Notebooks.
+/// This static class ports and exposes some important methods from the
+/// <a href="https://www.nuget.org/packages/XPlot.Plotly.Interactive/">XPlot.Plotly.Interactive</a> package.
+/// For some reason, the HTML produced by the public methods does not render consistently in .NET interactive,
+/// while the methods made public here do.
 /// </summary>
 public static class PlotlyExtensions
 {
+    /// <summary>
+    /// Produces a &lt;script&gt; tag that imports plotly-1.49.2 using require, and contains the given script.
+    /// </summary>
+    /// <param name="script">The script contained by the tag.</param>
+    /// <returns>A string with the &lt;script&gt; tag.</returns>
     public static string GetScriptElementWithRequire(string script)
     {
         var newScript = new StringBuilder();
@@ -33,6 +39,11 @@ var renderPlotly = function() {
         return newScript.ToString();
     }
 
+    /// <summary>
+    /// Produces HTML code for the given chart, that will render consistently in .NET Interactive.
+    /// </summary>
+    /// <param name="chart">The chart to show in the HTML.</param>
+    /// <returns>An <see cref="HtmlString"/> with the code.</returns>
     public static HtmlString GetNotebookHtml(this PlotlyChart chart)
     {
         var styleStr = $"width: {chart.Width}px; height: {chart.Height}px;";
@@ -50,6 +61,10 @@ var renderPlotly = function() {
         return new HtmlString(divElem + GetScriptElementWithRequire(js));
     }
 
+    /// <summary>
+    /// Displays the chart in .NET Interactive, using HTML.
+    /// </summary>
+    /// <param name="chart">The chart to display.</param>
     public static void DisplayOnNotebook(this PlotlyChart chart)
     {
         chart
