@@ -43,8 +43,8 @@ var renderPlotly = function() {
     /// Produces HTML code for the given chart, that will render consistently in .NET Interactive.
     /// </summary>
     /// <param name="chart">The chart to show in the HTML.</param>
-    /// <returns>An <see cref="HtmlString"/> with the code.</returns>
-    public static HtmlString GetNotebookHtml(this PlotlyChart chart)
+    /// <returns>A string with the HTML code.</returns>
+    public static string GetNotebookHtml(this PlotlyChart chart)
     {
         var styleStr = $"width: {chart.Width}px; height: {chart.Height}px;";
         var div =
@@ -58,7 +58,8 @@ var renderPlotly = function() {
         var js = chart.GetInlineJS()
             .Replace("<script>", String.Empty)
             .Replace("</script>", String.Empty);
-        return new HtmlString(divElem + GetScriptElementWithRequire(js));
+        var htmlString = new HtmlString(divElem + GetScriptElementWithRequire(js)); 
+        return htmlString.ToString();
     }
 
     /// <summary>
@@ -69,7 +70,6 @@ var renderPlotly = function() {
     {
         chart
             .GetNotebookHtml()
-            .ToString()
             .DisplayAs(HtmlFormatter.MimeType);
     }
 }
