@@ -1,0 +1,51 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"name":"csharp"}]}}
+
+#!pwsh
+
+dotnet publish -c Release ../Nancy.Interactive/Nancy.Interactive/Nancy.Interactive.csproj -f net8.0
+
+#!csharp
+
+#r "../Nancy.Interactive/Nancy.Interactive/bin/Release/net8.0/publish/Unipi.Nancy.Interactive.dll"
+
+#r "nuget: Unipi.Nancy"
+
+#!csharp
+
+Unipi.Nancy.Interactive.NancyKernelExtension.Load(Microsoft.DotNet.Interactive.KernelInvocationContext.Current.HandlingKernel.RootKernel);
+
+#!csharp
+
+using Unipi.Nancy.Interactive;
+using Unipi.Nancy.MinPlusAlgebra;
+
+var beta = new Curve(
+    new Sequence([
+        Point.Origin(),
+        Segment.Zero(0, 1),
+        new Point(1, 0),
+        new Segment(1, 2, 0, 5)
+    ]),
+    0, 2, 5
+).Cut(0, 10);
+var alpha = new Curve(
+    new Sequence([
+        Point.Origin(),
+        new Segment(0, 1, 2, 1),
+        new Point(1, 3),
+        new Segment(1, 2, 3, 2),
+        new Point(2, 5),
+        new Segment(2, 3, 5, 1)
+    ]),
+    1, 2, 3
+).Cut(0, 8);
+
+#!csharp
+
+display(beta);
+
+#!csharp
+
+display(new []{beta, alpha});
