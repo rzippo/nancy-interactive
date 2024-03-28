@@ -1,3 +1,8 @@
+> This project has been moved to the main [Nancy repo](https://github.com/rzippo/nancy).
+
+> Shortly after publication, I realized that keeping the two separate makes it hard to experiment new changes to Nancy _and_ plot them with this project.
+> Merging the two under the same solution allows for a workaround, see [this tutorial](https://github.com/rzippo/nancy/blob/master/examples/quick-intro-local-build.dib).
+
 # Nancy.Interactive
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](/LICENSE.txt)
